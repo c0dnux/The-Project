@@ -34,6 +34,8 @@ exports.signup = catchAsync(async (req, res, next) => {
 
 exports.signin = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
+  console.log(email, password);
+
   if (!email || !password) {
     return next(new AppError("Provide email and password", 400));
   }
@@ -97,7 +99,6 @@ exports.protect = catchAsync(async (req, res, next) => {
 //Only for rendered pages
 //Dont put catchAsync here
 exports.isLoggedIn = async (req, res, next) => {
- 
   //Check if token exist
   if (req.cookies.jwt) {
     try {

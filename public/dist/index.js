@@ -1,0 +1,104 @@
+const $c67cb762f0198593$export$de026b00723010c1 = (type, msg)=>{
+    $c67cb762f0198593$export$516836c6a9dfc573(); // Remove existing alert before showing a new one
+    // Bootstrap alert classes: 'alert-success', 'alert-danger', etc.
+    const markup = `
+      <div class="alert alert-${type} alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x shadow" role="alert" style="z-index: 1050;">
+        ${msg}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    `;
+    document.querySelector("body").insertAdjacentHTML("afterbegin", markup);
+    // Auto-hide after 5 seconds
+    window.setTimeout($c67cb762f0198593$export$516836c6a9dfc573, 5000);
+};
+const $c67cb762f0198593$export$516836c6a9dfc573 = ()=>{
+    const el = document.querySelector(".alert");
+    if (el) {
+        el.classList.remove("show"); // Hide alert smoothly
+        setTimeout(()=>el.remove(), 150); // Remove it after animation
+    }
+};
+
+
+const $0e0246aa17379d59$export$73693bad9f5880b0 = async (type, data)=>{
+    const url = type === "login" ? "/api/v1/users/login" : "/api/v1/users/signup";
+    try {
+        const res = await axios.post(url, data, {
+            withCredentials: true
+        });
+        if (res.data.status === "Success") {
+            (0, $c67cb762f0198593$export$de026b00723010c1)("success", "Logged in successfully");
+            window.setTimeout(()=>{
+                location.assign("/");
+            }, 1500);
+        }
+    } catch (err) {
+        (0, $c67cb762f0198593$export$de026b00723010c1)("danger", err.response.data.message);
+    }
+};
+const $0e0246aa17379d59$export$a0973bcfe11b05c9 = async ()=>{
+    try {
+        const res = await axios.post("/api/v1/users/logout", {
+            withCredentials: true
+        });
+        if (res.data.status === "Success") {
+            (0, $c67cb762f0198593$export$de026b00723010c1)("success", "Logged Out successfully");
+            window.setTimeout(()=>{
+                location.reload(true);
+            }, 1500);
+        }
+    } catch (err) {
+        console.log(err);
+        (0, $c67cb762f0198593$export$de026b00723010c1)("danger", "Error logging out! Try again.");
+    }
+}; //     .updat
+
+
+const $d0f7ce18c37ad6f6$var$logoutBtn = document.querySelector("#logout-btn");
+const $d0f7ce18c37ad6f6$var$userSignup = document.getElementById("user-signup");
+if ($d0f7ce18c37ad6f6$var$logoutBtn) $d0f7ce18c37ad6f6$var$logoutBtn.addEventListener("click", async (e)=>{
+    e.preventDefault();
+    await (0, $0e0246aa17379d59$export$a0973bcfe11b05c9)();
+});
+const $d0f7ce18c37ad6f6$var$loginForm = document.querySelector(".form--login");
+if ($d0f7ce18c37ad6f6$var$loginForm) $d0f7ce18c37ad6f6$var$loginForm.addEventListener("submit", async (e)=>{
+    e.preventDefault();
+    const email = document.getElementById("login-email").value;
+    const password = document.getElementById("login-password").value;
+    await (0, $0e0246aa17379d59$export$73693bad9f5880b0)("login", {
+        email: email,
+        password: password
+    });
+});
+if ($d0f7ce18c37ad6f6$var$userSignup) $d0f7ce18c37ad6f6$var$userSignup.addEventListener("submit", async (e)=>{
+    e.preventDefault();
+    const form = {
+        name: document.getElementById("signup-name").value,
+        email: document.getElementById("signup-email").value,
+        password: document.getElementById("signup-password").value,
+        phone: document.getElementById("signup-phone").value,
+        address: document.getElementById("signup-address").value,
+        confirmPassword: document.getElementById("signup-confirm-password").value
+    };
+    await (0, $0e0246aa17379d59$export$73693bad9f5880b0)("signup", form);
+});
+if (document.querySelector("body")?.dataset.page === "auth") document.addEventListener("DOMContentLoaded", ()=>{
+    // Password toggle functionality
+    document.querySelectorAll(".toggle-password").forEach((icon)=>{
+        icon.addEventListener("click", ()=>{
+            const passwordField = document.getElementById(icon.getAttribute("data-target"));
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                icon.classList.remove("bi-eye");
+                icon.classList.add("bi-eye-slash");
+            } else {
+                passwordField.type = "password";
+                icon.classList.remove("bi-eye-slash");
+                icon.classList.add("bi-eye");
+            }
+        });
+    });
+});
+
+
+//# sourceMappingURL=index.js.map

@@ -17,8 +17,13 @@ exports.overview = catchAsync(async (req, res, next) => {
     product,
   });
 });
-exports.auth = async (req, res, next) => {
-  res.status(200).render("auth", {
+exports.login = async (req, res, next) => {
+  res.status(200).render("login", {
+    title: "overview",
+  });
+};
+exports.signup = async (req, res, next) => {
+  res.status(200).render("signup", {
     title: "overview",
   });
 };

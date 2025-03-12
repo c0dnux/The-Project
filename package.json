@@ -1,16 +1,16 @@
 {
   "name": "project",
   "version": "1.0.0",
-  "description": "School project",
-  "main": "server.js",
+  "description": "School project", 
+  "main": "./public/dist/index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=development node server.js",
     "dev": "cross-env NODE_ENV=development nodemon server.js",
     "start:dev": "cross-env NODE_ENV=development nodemon server.js",
     "debug": "ndb server.js",
     "start:prod": "cross-env NODE_ENV=production nodemon server.js",
-    "watch": "parcel watch public/js/index.js",
-    "build": "parcel build public/js/index.js"
+    "watch": "parcel watch public/js/index.js --dist-dir ./public/dist",
+    "build": "parcel build public/js/index.js --dist-dir ./public/dist"
   },
   "author": "Abdulrahman Mustapha Sani",
   "license": "ISC",

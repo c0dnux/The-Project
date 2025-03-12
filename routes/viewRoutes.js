@@ -6,9 +6,10 @@ const router = express.Router();
 router.get("/", authController.isLoggedIn, viewController.homePage);
 router.get(
   "/product/:productId",
-  authController.protect,
+  authController.isLoggedIn,
   viewController.overview
 );
-router.get("/auth", viewController.auth);
+router.get("/login", viewController.login);
+router.get("/signup", viewController.signup);
 
 module.exports = router;

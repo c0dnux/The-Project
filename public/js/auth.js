@@ -1,29 +1,24 @@
 import { showAlert } from "./alert.js";
 
-export const login = async (email, password) => {
-  console.log(email, password);
+export const auth = async (type, data) => {
+  const url = type === "login" ? "/api/v1/users/login" : "/api/v1/users/signup";
+ 
 
   try {
-    const res = await axios.post(
-      "/api/v1/users/login",
-      {
-        email,
-        password,
-      },
-      { withCredentials: true }
-    );
+    const res = await axios.post(url, data, {
+      withCredentials: true,
+    });
     if (res.data.status === "Success") {
       showAlert("success", "Logged in successfully");
       window.setTimeout(() => {
         location.assign("/");
       }, 1500);
     }
-  } catch (err) {
-    console.log(err);
-
+  } catch (err) { 
     showAlert("danger", err.response.data.message);
   }
 };
+
 export const logout = async () => {
   try {
     const res = await axios.post("/api/v1/users/logout", {
