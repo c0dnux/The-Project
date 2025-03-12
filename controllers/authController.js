@@ -8,8 +8,15 @@ const Email = require("./../utils/emailBrevo");
 const AppError = require("./../utils/appError");
 
 exports.signup = catchAsync(async (req, res, next) => {
-
-  const allowed = ["name", "email", "password", "photo", "confirmPassword"];
+  const allowed = [
+    "name",
+    "email",
+    "password",
+    "photo",
+    "confirmPassword",
+    "address",
+    "phone",
+  ];
   let gotten = {};
   allowed.forEach((elem) => {
     if (req.body[elem]) gotten[elem] = req.body[elem];
@@ -90,7 +97,7 @@ exports.protect = catchAsync(async (req, res, next) => {
 //Only for rendered pages
 //Dont put catchAsync here
 exports.isLoggedIn = async (req, res, next) => {
-  let token;
+ 
   //Check if token exist
   if (req.cookies.jwt) {
     try {

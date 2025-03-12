@@ -42,12 +42,18 @@ app.use(
       ],
       fontSrc: [
         "'self'",
-        "https://fonts.gstatic.com", // ✅ Allow Google Fonts
+        "https://fonts.gstatic.com",
         "https://cdnjs.cloudflare.com",
         "https://cdn.jsdelivr.net",
         "https://maxcdn.bootstrapcdn.com",
       ],
-      imgSrc: ["'self'", "data:", "https:"],
+      
+      imgSrc: [
+        "'self'",
+        "data:", // Allows inline Base64 images
+        "https:", // Allows loading images from HTTPS sources
+        "blob:", // If you're using Blob URLs for images
+      ],
       connectSrc: ["'self'"],
     },
   })

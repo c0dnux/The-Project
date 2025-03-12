@@ -14,13 +14,10 @@ const productSchema = new Schema({
   stock: { type: Number, default: 0 },
   sizes: [{ type: String }], // For shoes, caps, etc.
   color: { type: String, required: [true, "Please insert color"] },
-  slug: { type: String, unique: true },
+  
   createdAt: { type: Date, default: Date.now },
 });
-productSchema.pre("save", function (next) {
-  this.slug = this.name.split(" ").join("-").toLowerCase();
-  next();
-});
+
 productSchema.pre(/^find/, function (next) {
   this.populate("category");
   next();

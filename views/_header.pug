@@ -1,0 +1,29 @@
+header#header
+                h1 
+                    a(href="/") Thread & Trend
+                nav#nav
+                    ul
+                        li.special
+                            a.menuToggle(href="#menu") 
+                                span Menu
+                            #menu
+                                ul  
+                                    if user  
+                                        li 
+                                            a(href="/") Home
+                                        li 
+                                            a#logout-btn(href="") Log Out
+                                        li 
+                                            a(href="elements.html") Profile
+                                                i.fas.fa-user  
+                                        li
+                                            a(href="#") Cart
+                                                i.fas.fa-shopping-cart
+                                         
+                                    else 
+                                        li 
+                                            a(href="/") Home  
+                                        li 
+                                            a(href="/auth") Sign Up
+                                        li 
+                                            a(href="/auth") Log In  

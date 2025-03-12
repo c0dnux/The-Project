@@ -4,7 +4,6 @@ const validator = require("validator");
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 
-
 const userSchema = new Schema({
   name: { type: String, required: [true, "Name is required"] },
   email: {
@@ -14,7 +13,7 @@ const userSchema = new Schema({
     lowerCase: true,
     validate: [validator.isEmail, "Please provide a valid email"],
   },
-  photo: { type: String, default: "default.jpg" },
+
   role: {
     type: String,
     enum: ["boss", "minions", "user"],
@@ -28,7 +27,7 @@ const userSchema = new Schema({
   },
   confirmPassword: {
     type: String,
-    required: [true, "Provide a password"],
+    required: [true, "Confirm your password"],
     validate: {
       validator: function (el) {
         return el === this.password;
@@ -63,6 +62,8 @@ userSchema.pre("save", async function (next) {
 
   // Hash password
   this.password = await bcrypt.hash(this.password, 12);
+  // Remove confirmPassword field
+  this.confirmPassword = undefined;
 
   // Set passwordChangedAt field
   this.passwordChangedAt = Date.now() - 1000;
