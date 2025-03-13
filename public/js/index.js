@@ -1,8 +1,8 @@
 import { logout, auth } from "./auth.js";
-
+import { addToCart } from "./addCart.js";
 const logoutBtn = document.querySelector("#logout-btn");
 const userSignup = document.getElementById("user-signup");
-
+const cart = document.getElementById("addToCartForm");
 if (logoutBtn) {
   logoutBtn.addEventListener("click", async (e) => {
     e.preventDefault();
@@ -54,5 +54,17 @@ if (document.querySelector("body")?.dataset.page === "auth") {
         }
       });
     });
+  });
+}
+if (cart) {
+  cart.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const data = {
+      productId: cart.dataset.productId,
+      customerId: cart.dataset.userId,
+      quantity: document.getElementById("product-quantity").value,
+    };
+    await addToCart(data);
   });
 }

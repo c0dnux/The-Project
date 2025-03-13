@@ -7,7 +7,8 @@ const $c67cb762f0198593$export$de026b00723010c1 = (type, msg)=>{
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
     `;
-    document.querySelector("body").insertAdjacentHTML("afterbegin", markup);
+    const data = msg === "Added to cart" ? "#header" : "body";
+    document.querySelector(data).insertAdjacentHTML("afterbegin", markup);
     // Auto-hide after 5 seconds
     window.setTimeout($c67cb762f0198593$export$516836c6a9dfc573, 5000);
 };
@@ -54,8 +55,29 @@ const $0e0246aa17379d59$export$a0973bcfe11b05c9 = async ()=>{
 }; //     .updat
 
 
+
+const $3499fa98de85880a$export$576b6dd9d68b37bc = async (data)=>{
+    try {
+        const res = await axios.post("/api/v1/cart/add", data, {
+            withCredentials: true
+        });
+        if (res.data.status === "Success") {
+            console.log(res);
+            (0, $c67cb762f0198593$export$de026b00723010c1)("success", "Added to cart");
+            window.setTimeout(()=>{
+            // location.assign("/");
+            }, 1500);
+        }
+    } catch (err) {
+        console.log(err);
+        (0, $c67cb762f0198593$export$de026b00723010c1)("danger", err.response.data.message);
+    }
+};
+
+
 const $d0f7ce18c37ad6f6$var$logoutBtn = document.querySelector("#logout-btn");
 const $d0f7ce18c37ad6f6$var$userSignup = document.getElementById("user-signup");
+const $d0f7ce18c37ad6f6$var$cart = document.getElementById("addToCartForm");
 if ($d0f7ce18c37ad6f6$var$logoutBtn) $d0f7ce18c37ad6f6$var$logoutBtn.addEventListener("click", async (e)=>{
     e.preventDefault();
     await (0, $0e0246aa17379d59$export$a0973bcfe11b05c9)();
@@ -98,6 +120,15 @@ if (document.querySelector("body")?.dataset.page === "auth") document.addEventLi
             }
         });
     });
+});
+if ($d0f7ce18c37ad6f6$var$cart) $d0f7ce18c37ad6f6$var$cart.addEventListener("submit", async (e)=>{
+    e.preventDefault();
+    const data = {
+        productId: $d0f7ce18c37ad6f6$var$cart.dataset.productId,
+        customerId: $d0f7ce18c37ad6f6$var$cart.dataset.userId,
+        quantity: document.getElementById("product-quantity").value
+    };
+    await (0, $3499fa98de85880a$export$576b6dd9d68b37bc)(data);
 });
 
 

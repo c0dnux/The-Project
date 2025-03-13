@@ -7,6 +7,7 @@ const AppError = require("./utils/appError");
 const productRouter = require("./routes/productRoutes");
 const categoryRouter = require("./routes/categoryRoutes");
 const viewRouter = require("./routes/viewRoutes");
+const cartRouter = require("./routes/cartRoutes");
 const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
 const ems = require("express-mongo-sanitize");
@@ -47,7 +48,7 @@ app.use(
         "https://cdn.jsdelivr.net",
         "https://maxcdn.bootstrapcdn.com",
       ],
-      
+
       imgSrc: [
         "'self'",
         "data:", // Allows inline Base64 images
@@ -126,6 +127,7 @@ app.set("views", path.join(__dirname, "views"));
 // app.use("/api/v1/users", userRouter);
 // app.use("/api/v1/reviews", reviewRoutes);
 app.use("/", viewRouter);
+app.use("/api/v1/cart", cartRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/products", productRouter);
 app.use("/api/v1/category", categoryRouter);
