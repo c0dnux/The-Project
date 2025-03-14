@@ -2,7 +2,7 @@ const catchAsync = require("./../utils/catchAsync");
 const Cart = require("./../models/cartModel");
 const AppError = require("./../utils/appError");
 const Product = require("./../models/productModel");
-const mongoose = require("mongoose");
+const { async } = require("regenerator-runtime");
 exports.addToCart = catchAsync(async (req, res, next) => {
   const { productId } = req.body;
   const quantity = Number(req.body.quantity); // Ensure quantity is a number
@@ -90,4 +90,16 @@ exports.removeFromCart = catchAsync(async (req, res, next) => {
     message: "Product removed from cart",
     data: cart,
   });
+});
+exports.getOne = catchAsync(async (req, res, next) => {
+  const { cartId } = req.params;
+  console.log(cartId);
+
+  const cart = await Cart.findOne({ customer: cartId });
+  console.log(cart);
+
+  if (!cart) return new AppError("No cart found", 400);
+  res
+    .status(200)
+    .json({ status: "Success", message: "Carrt gotten", data: cart });
 });

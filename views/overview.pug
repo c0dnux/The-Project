@@ -1,113 +1,96 @@
-doctype html
-html(lang="en")
-    head
-        meta(charset="UTF-8")
-        meta(name="viewport" content="width=device-width, initial-scale=1")
-        title Product Overview
-        link(href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet")
-        link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css")
-        link(rel="stylesheet", href="/css/main.css")
+extends base
 
-        style.
-            body {
-                font-family: "Roboto", sans-serif;
-                background-color: #f8f9fa;
-            }
-            .product-img {
-                width: 100%;
-                height: auto;
-                border-radius: 10px;
-                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            }
-            .product-container {
-                display: flex;
-                flex-wrap: wrap;
-                align-items: center;
-                justify-content: center;
-            }
-            .product-img-container {
-                flex: 1;
-                max-width: 50%;
-            }
+block content
+    style.
+        body {
+            font-family: "Roboto", sans-serif;
+            background-color: #f8f9fa;
+        }
+        .product-img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .product-container {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+        }
+        .product-img-container {
+            flex: 1;
+            max-width: 50%;
+        }
+        .product-info-container {
+            flex: 1;
+            max-width: 50%;
+        }
+        @media (max-width: 768px) {
+            .product-img-container,
             .product-info-container {
-                flex: 1;
-                max-width: 50%;
+                max-width: 100%;
             }
-            @media (max-width: 768px) {
-                .product-img-container,
-                .product-info-container {
-                    max-width: 100%;
-                }
-            }
-            .badge {
-                font-size: 1rem;
-                padding: 0.5rem 1rem;
-            }
-            /* Fix white text inside form inputs */
-            .form-control {
-                color: #000 !important; /* Ensure text is black */
-                background-color: #fff; /* Set a white background */
-                border: 1px solid #ced4da; /* Light gray border for better visibility */
-            }
-            .form-label {
-                color: #333; /* Ensure labels are dark for visibility */
-            }
+        }
+        .badge {
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+        }
+        /* Fix white text inside form inputs */
+        .form-control {
+            color: #000 !important; /* Ensure text is black */
+            background-color: #fff; /* Set a white background */
+            border: 1px solid #ced4da; /* Light gray border for better visibility */
+        }
+        .form-label {
+            color: #333; /* Ensure labels are dark for visibility */
+        }
+    .container.mt-5
+        .row.product-container
+            .col-lg-6.product-img-container.text-center
+                img.product-img(src=`/img/products/${product.image}` alt="Product Image")
 
-    body
-        #page-wrapper
-            include _header
+            .col-lg-6.product-info-container
+                h3.text-dark #{product.name}
+                if product.description
+                    p.text-muted #{product.description}
+                else
+                    p.text-muted 
+                        | This premium-quality fabric is perfect for fashion, upholstery, and decor. 
+                        | Made from high-quality materials, it ensures durability and comfort.
 
-            .container.mt-5
-                .row.product-container
-                    .col-lg-6.product-img-container.text-center
-                        img.product-img(src=`/img/products/${product.image}` alt="Product Image")
+                span.badge.bg-success In Stock: #{product.stock} 
+                br
+                span.badge.bg-info High-Quality Material
+                span.badge.bg-warning Easy to Wash
+                span.badge.bg-primary Stylish Look
 
-                    .col-lg-6.product-info-container
-                        h3.text-dark #{product.name}
-                        if product.description
-                            p.text-muted #{product.description}
-                        else
-                            p.text-muted 
-                                | This premium-quality fabric is perfect for fashion, upholstery, and decor. 
-                                | Made from high-quality materials, it ensures durability and comfort.
+        .row.justify-content-center.mt-4
+            .col-md-6
+                form#addToCartForm(data-product-id=`${product._id}` )
+                    .mb-3
+                        label.form-label Category
+                        input.form-control(type="text" value=`${product.category.name}` readonly)
+                    .mb-3
+                        label.form-label Price
+                        input.form-control(type="text" value=`₦${product.price}` readonly)
+                    .mb-3
+                        label.form-label Color
+                        input.form-control(type="text" value=`${product.color}` readonly)
+                    .mb-3
+                        label.form-label Select Quantity (Yards/Units)
+                        input#product-quantity.form-control(type="number" min="1" value="1")
+                    if product.sizes.length
+                        .mb-3
+                            label.form-label Sizes Available
+                            .d-flex.gap-2
+                                each size in product.sizes
+                                    span.badge.bg-secondary= size
+                    button.btn.btn-primary.w-100(type="submit") Add to Cart   
 
-                        span.badge.bg-success In Stock: #{product.stock} 
-                        br
-                        span.badge.bg-info High-Quality Material
-                        span.badge.bg-warning Easy to Wash
-                        span.badge.bg-primary Stylish Look
 
-                .row.justify-content-center.mt-4
-                    .col-md-6
-                        form#addToCartForm(data-product-id=`${product._id}` data-user-id=`${user._id}`)
-                            .mb-3
-                                label.form-label Category
-                                input.form-control(type="text" value=`${product.category.name}` readonly)
-                            .mb-3
-                                label.form-label Price
-                                input.form-control(type="text" value=`₦${product.price}` readonly)
-                            .mb-3
-                                label.form-label Color
-                                input.form-control(type="text" value=`${product.color}` readonly)
-                            .mb-3
-                                label.form-label Select Quantity (Yards/Units)
-                                input#product-quantity.form-control(type="number" min="1" value="1")
-                            if product.sizes.length
-                                .mb-3
-                                    label.form-label Sizes Available
-                                    .d-flex.gap-2
-                                        each size in product.sizes
-                                            span.badge.bg-secondary= size
-                            button.btn.btn-primary.w-100(type="submit") Add to Cart
-            include _footer
 
-        script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js")
-        script(src="/js/jquery.min.js")
-        script(src="/js/jquery.scrollex.min.js")
-        script(src="/js/jquery.scrolly.min.js")
-        script(src="/js/browser.min.js")
-        script(src="/js/breakpoints.min.js")
-        script(src="/js/util.js")
-        script(src="/js/main.js")
-        script(type="module" src="/dist/index.js")
-        script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
+
+
+
+

@@ -1,0 +1,40 @@
+html
+    head
+        block head
+            title #{title}
+            meta(charset="utf-8")
+            meta(name="viewport" content="width=device-width, initial-scale=1, user-scalable=no")
+
+            // Bootstrap CSS
+
+            link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css")
+            link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css")
+
+            //- link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css")
+            // Custom Stylesheets
+            link(rel="stylesheet", href="/css/main.css")
+            noscript
+                link(rel="stylesheet", href="/css/noscript.css")
+    body 
+        #page-wrapper
+            include _header
+
+
+            block content 
+
+
+            include _footer
+
+
+        script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js")
+        script(src="/js/jquery.min.js")
+        script(src="/js/jquery.scrollex.min.js")
+        script(src="/js/jquery.scrolly.min.js")
+        script(src="/js/browser.min.js")
+        script(src="/js/breakpoints.min.js")
+        script(src="/js/util.js")
+        script(src="/js/main.js")
+        script(type="module" src="/dist/index.js")
+        script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
+
+

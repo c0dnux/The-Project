@@ -1,0 +1,56 @@
+extends base
+
+block content
+    style.
+        body {
+            font-family: "Roboto", sans-serif;
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-bottom: 30px;
+        }
+        .cart-summary {
+            background-color: white;
+            color: black;
+            border-radius: 10px;
+            padding: 20px;
+        }
+        .checkout-btn {
+            transition: 0.3s;
+        }
+        .checkout-btn:hover {
+            background-color: #0056b3;
+        }
+
+    .container.mt-5
+        h2.text-center.mb-4(style="color: #858585;") Cart Summary
+
+        // Cart Items
+        .row.g-3
+            each cart in myCart.products
+                .col-md-4
+                    .card.h-100.shadow-sm
+                        img.card-img-top(src=`/img/products/${cart.product.image}`, alt=cart.product.name, style="height: 150px; object-fit: cover")
+                        .card-body
+                            h5.card-title #{cart.product.name}
+                            p.card-text ₦#{cart.product.price}
+                            p.card-text Quantity: #{cart.quantity}
+                            button.btn.btn-danger.w-100.mt-2 Remove
+
+        // Summary Section
+        .row.justify-content-end.mt-4
+            .col-md-5
+                .cart-summary.shadow-lg
+                    h4.text-center(style="color: black;") Order Summary
+                    hr(style="border-color: black;")
+                    .d-flex.justify-content-between
+                        span.text-muted Subtotal:
+                        strong(style="color: black;") ₦#{myCart.totalSum}
+                    .d-flex.justify-content-between
+                        span.text-muted Delivery Fee:
+                        strong(style="color: black;") ₦1500
+                    hr(style="border-color: black;")
+                    .d-flex.justify-content-between
+                        h5(style="color: black;") Total:
+                        h5(style="color: black;") ₦#{myCart.totalSum + 1500}
+                    button.btn.btn-primary.w-100.checkout-btn.mt-3 Checkout

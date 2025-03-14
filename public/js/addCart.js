@@ -6,16 +6,14 @@ export const addToCart = async (data) => {
       withCredentials: true,
     });
     if (res.data.status === "Success") {
-      console.log(res);
 
-      showAlert("success", "Added to cart");
+      showAlert("success", "Added to cart","cart");
       window.setTimeout(() => {
         // location.assign("/");
       }, 1500);
     }
   } catch (err) {
-    console.log(err);
 
-    showAlert("danger", err.response.data.message);
+    showAlert("danger", err.response.data.message,"cart");
   }
 };

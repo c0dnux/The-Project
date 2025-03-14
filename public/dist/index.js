@@ -1,4 +1,4 @@
-const $c67cb762f0198593$export$de026b00723010c1 = (type, msg)=>{
+const $c67cb762f0198593$export$de026b00723010c1 = (type, msg, from)=>{
     $c67cb762f0198593$export$516836c6a9dfc573(); // Remove existing alert before showing a new one
     // Bootstrap alert classes: 'alert-success', 'alert-danger', etc.
     const markup = `
@@ -7,7 +7,7 @@ const $c67cb762f0198593$export$de026b00723010c1 = (type, msg)=>{
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
     `;
-    const data = msg === "Added to cart" ? "#header" : "body";
+    const data = from === "cart" ? "#header" : "body";
     document.querySelector(data).insertAdjacentHTML("afterbegin", markup);
     // Auto-hide after 5 seconds
     window.setTimeout($c67cb762f0198593$export$516836c6a9dfc573, 5000);
@@ -62,15 +62,13 @@ const $3499fa98de85880a$export$576b6dd9d68b37bc = async (data)=>{
             withCredentials: true
         });
         if (res.data.status === "Success") {
-            console.log(res);
-            (0, $c67cb762f0198593$export$de026b00723010c1)("success", "Added to cart");
+            (0, $c67cb762f0198593$export$de026b00723010c1)("success", "Added to cart", "cart");
             window.setTimeout(()=>{
             // location.assign("/");
             }, 1500);
         }
     } catch (err) {
-        console.log(err);
-        (0, $c67cb762f0198593$export$de026b00723010c1)("danger", err.response.data.message);
+        (0, $c67cb762f0198593$export$de026b00723010c1)("danger", err.response.data.message, "cart");
     }
 };
 
@@ -125,7 +123,6 @@ if ($d0f7ce18c37ad6f6$var$cart) $d0f7ce18c37ad6f6$var$cart.addEventListener("sub
     e.preventDefault();
     const data = {
         productId: $d0f7ce18c37ad6f6$var$cart.dataset.productId,
-        customerId: $d0f7ce18c37ad6f6$var$cart.dataset.userId,
         quantity: document.getElementById("product-quantity").value
     };
     await (0, $3499fa98de85880a$export$576b6dd9d68b37bc)(data);

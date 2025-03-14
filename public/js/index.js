@@ -62,7 +62,6 @@ if (cart) {
 
     const data = {
       productId: cart.dataset.productId,
-      customerId: cart.dataset.userId,
       quantity: document.getElementById("product-quantity").value,
     };
     await addToCart(data);
