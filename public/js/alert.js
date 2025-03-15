@@ -1,4 +1,4 @@
-export const showAlert = (type, msg, from) => {
+export const showAlert = (type, msg) => {
   hideAlert(); // Remove existing alert before showing a new one
 
   // Bootstrap alert classes: 'alert-success', 'alert-danger', etc.
@@ -8,8 +8,8 @@ export const showAlert = (type, msg, from) => {
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
     `;
-  const data = from === "cart" ? "#header" : "body";
-  document.querySelector(data).insertAdjacentHTML("afterbegin", markup);
+  // const data = from === "cart" ? "#header" : "body";
+  document.querySelector("#header").insertAdjacentHTML("afterbegin", markup);
 
   // Auto-hide after 5 seconds
   window.setTimeout(hideAlert, 5000);

@@ -64,32 +64,24 @@ exports.addToCart = catchAsync(async (req, res, next) => {
   });
 });
 exports.removeFromCart = catchAsync(async (req, res, next) => {
-  const { customerId, productId } = req.body;
+  const { productId } = req.body;
+  const customerId = req.user.id;
 
   const cart = await Cart.findOne({ customer: customerId });
 
-  // Find the index of the product in the cart
-  const productIndex = cart.products.findIndex(
-    (p) => p.product.toString() === productId
+  if (!cart) return new AppError("Cart not found", 404);
+
+  // Remove the product from the cart
+  cart.products = cart.products.filter(
+    (item) => item.product.id.toString() !== productId
   );
 
-  if (productIndex === -1) {
-    return res.status(404).json({
-      status: "Fail",
-      message: "Product not found in cart",
-    });
-  }
-
-  // Remove the product from the array
-  cart.products.splice(productIndex, 1);
-
+  // Save the updated cart
   await cart.save();
 
-  return res.status(200).json({
-    status: "Success",
-    message: "Product removed from cart",
-    data: cart,
-  });
+  res
+    .status(200)
+    .json({ status: "Success", message: "Product removed from cart", cart });
 });
 exports.getOne = catchAsync(async (req, res, next) => {
   const { cartId } = req.params;

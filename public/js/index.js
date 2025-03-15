@@ -1,8 +1,9 @@
 import { logout, auth } from "./auth.js";
-import { addToCart } from "./addCart.js";
+import { addToCart, removeProduct } from "./cart.js";
 const logoutBtn = document.querySelector("#logout-btn");
 const userSignup = document.getElementById("user-signup");
 const cart = document.getElementById("addToCartForm");
+const removeFromCart = document.querySelectorAll(".romove-from-cart");
 if (logoutBtn) {
   logoutBtn.addEventListener("click", async (e) => {
     e.preventDefault();
@@ -35,7 +36,7 @@ if (userSignup) {
   });
 }
 
-if (document.querySelector("body")?.dataset.page === "auth") {
+if (document.querySelector("form")?.dataset.page === "auth") {
   document.addEventListener("DOMContentLoaded", () => {
     // Password toggle functionality
     document.querySelectorAll(".toggle-password").forEach((icon) => {
@@ -65,5 +66,14 @@ if (cart) {
       quantity: document.getElementById("product-quantity").value,
     };
     await addToCart(data);
+  });
+}
+if (removeFromCart) {
+  removeFromCart.forEach((button) => {
+    button.addEventListener("click", async (e) => {
+      e.preventDefault();
+      const productId = button.getAttribute("data-id");
+      await removeProduct(productId);
+    });
   });
 }

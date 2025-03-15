@@ -1,4 +1,4 @@
-const $c67cb762f0198593$export$de026b00723010c1 = (type, msg, from)=>{
+const $c67cb762f0198593$export$de026b00723010c1 = (type, msg)=>{
     $c67cb762f0198593$export$516836c6a9dfc573(); // Remove existing alert before showing a new one
     // Bootstrap alert classes: 'alert-success', 'alert-danger', etc.
     const markup = `
@@ -7,8 +7,8 @@ const $c67cb762f0198593$export$de026b00723010c1 = (type, msg, from)=>{
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
     `;
-    const data = from === "cart" ? "#header" : "body";
-    document.querySelector(data).insertAdjacentHTML("afterbegin", markup);
+    // const data = from === "cart" ? "#header" : "body";
+    document.querySelector("#header").insertAdjacentHTML("afterbegin", markup);
     // Auto-hide after 5 seconds
     window.setTimeout($c67cb762f0198593$export$516836c6a9dfc573, 5000);
 };
@@ -56,19 +56,35 @@ const $0e0246aa17379d59$export$a0973bcfe11b05c9 = async ()=>{
 
 
 
-const $3499fa98de85880a$export$576b6dd9d68b37bc = async (data)=>{
+const $36691fe5aa208e75$export$576b6dd9d68b37bc = async (data)=>{
     try {
         const res = await axios.post("/api/v1/cart/add", data, {
             withCredentials: true
         });
         if (res.data.status === "Success") {
-            (0, $c67cb762f0198593$export$de026b00723010c1)("success", "Added to cart", "cart");
+            (0, $c67cb762f0198593$export$de026b00723010c1)("success", "Added to cart");
             window.setTimeout(()=>{
-            // location.assign("/");
+                location.assign("/cart");
             }, 1500);
         }
     } catch (err) {
-        (0, $c67cb762f0198593$export$de026b00723010c1)("danger", err.response.data.message, "cart");
+        (0, $c67cb762f0198593$export$de026b00723010c1)("danger", err.response.data.message);
+    }
+};
+const $36691fe5aa208e75$export$86a330d9a979afdd = async (myProductId)=>{
+    try {
+        const res = await axios.patch("/api/v1/cart/remove", {
+            productId: myProductId
+        });
+        if (res.data.status === "Success") {
+            (0, $c67cb762f0198593$export$de026b00723010c1)("success", "Removed from cart");
+            window.setTimeout(()=>{
+                location.reload(true);
+            }, 1500);
+        }
+    } catch (error) {
+        console.log(error);
+        (0, $c67cb762f0198593$export$de026b00723010c1)("danger", error.response.data.message);
     }
 };
 
@@ -76,6 +92,7 @@ const $3499fa98de85880a$export$576b6dd9d68b37bc = async (data)=>{
 const $d0f7ce18c37ad6f6$var$logoutBtn = document.querySelector("#logout-btn");
 const $d0f7ce18c37ad6f6$var$userSignup = document.getElementById("user-signup");
 const $d0f7ce18c37ad6f6$var$cart = document.getElementById("addToCartForm");
+const $d0f7ce18c37ad6f6$var$removeFromCart = document.querySelectorAll(".romove-from-cart");
 if ($d0f7ce18c37ad6f6$var$logoutBtn) $d0f7ce18c37ad6f6$var$logoutBtn.addEventListener("click", async (e)=>{
     e.preventDefault();
     await (0, $0e0246aa17379d59$export$a0973bcfe11b05c9)();
@@ -102,7 +119,7 @@ if ($d0f7ce18c37ad6f6$var$userSignup) $d0f7ce18c37ad6f6$var$userSignup.addEventL
     };
     await (0, $0e0246aa17379d59$export$73693bad9f5880b0)("signup", form);
 });
-if (document.querySelector("body")?.dataset.page === "auth") document.addEventListener("DOMContentLoaded", ()=>{
+if (document.querySelector("form")?.dataset.page === "auth") document.addEventListener("DOMContentLoaded", ()=>{
     // Password toggle functionality
     document.querySelectorAll(".toggle-password").forEach((icon)=>{
         icon.addEventListener("click", ()=>{
@@ -125,7 +142,14 @@ if ($d0f7ce18c37ad6f6$var$cart) $d0f7ce18c37ad6f6$var$cart.addEventListener("sub
         productId: $d0f7ce18c37ad6f6$var$cart.dataset.productId,
         quantity: document.getElementById("product-quantity").value
     };
-    await (0, $3499fa98de85880a$export$576b6dd9d68b37bc)(data);
+    await (0, $36691fe5aa208e75$export$576b6dd9d68b37bc)(data);
+});
+if ($d0f7ce18c37ad6f6$var$removeFromCart) $d0f7ce18c37ad6f6$var$removeFromCart.forEach((button)=>{
+    button.addEventListener("click", async (e)=>{
+        e.preventDefault();
+        const productId = button.getAttribute("data-id");
+        await (0, $36691fe5aa208e75$export$86a330d9a979afdd)(productId);
+    });
 });
 
 
