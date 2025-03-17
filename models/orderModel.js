@@ -15,7 +15,6 @@ const orderSchema = new Schema({
         required: true,
       },
       quantity: { type: Number, required: true },
-      price: { type: Number, required: true },
     },
   ],
   totalAmount: { type: Number, required: true },
@@ -28,8 +27,13 @@ const orderSchema = new Schema({
     type: String,
     enum: ["pending", "paid", "failed"],
     default: "pending",
-  }, 
+  },
+  reference: { type: String, required: [true, "Reference is required"] },
   createdAt: { type: Date, default: Date.now },
 });
-
-module.exports = mongoose.model("Order", orderSchema);
+orderSchema.pre(/^find/, function (next) {
+  this.populate("products.product");
+  next();
+});
+const Order = mongoose.model("Order", orderSchema);
+module.exports = Order;

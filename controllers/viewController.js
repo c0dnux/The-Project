@@ -1,6 +1,7 @@
 const Product = require("./../models/productModel");
 const catchAsync = require("./../utils/catchAsync");
 const Cart = require("./../models/cartModel");
+const Order = require("./../models/orderModel");
 exports.homePage = catchAsync(async (req, res, next) => {
   const products = await Product.find();
 
@@ -34,5 +35,17 @@ exports.cart = catchAsync(async (req, res, next) => {
   res.status(200).render("cart", {
     title: "cart",
     myCart,
+  });
+});
+exports.payment = catchAsync(async (req, res, next) => {
+  res.status(200).render("confirm-payment", {
+    title: "payment",
+  });
+});
+exports.orders = catchAsync(async (req, res, next) => {
+  const orders = await Order.find({ customer: req.user.id });
+  res.status(200).render("order", {
+    title: "payment",
+    orders,
   });
 });

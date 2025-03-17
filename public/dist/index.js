@@ -89,10 +89,20 @@ const $36691fe5aa208e75$export$86a330d9a979afdd = async (myProductId)=>{
 };
 
 
+
+const $e01ee04c3b6f960b$export$7f840fa987fe1d8d = async ()=>{
+    const res = await axios.post("/api/v1/order/makeOrder");
+    const checkoutUrl = res.data.checkoutUrl;
+    if (checkoutUrl) window.location.href = checkoutUrl;
+    else (0, $c67cb762f0198593$export$de026b00723010c1)("danger", "Payment initiation failed. No checkout URL received.");
+};
+
+
 const $d0f7ce18c37ad6f6$var$logoutBtn = document.querySelector("#logout-btn");
 const $d0f7ce18c37ad6f6$var$userSignup = document.getElementById("user-signup");
 const $d0f7ce18c37ad6f6$var$cart = document.getElementById("addToCartForm");
 const $d0f7ce18c37ad6f6$var$removeFromCart = document.querySelectorAll(".romove-from-cart");
+const $d0f7ce18c37ad6f6$var$order = document.getElementById("checkout-btn");
 if ($d0f7ce18c37ad6f6$var$logoutBtn) $d0f7ce18c37ad6f6$var$logoutBtn.addEventListener("click", async (e)=>{
     e.preventDefault();
     await (0, $0e0246aa17379d59$export$a0973bcfe11b05c9)();
@@ -150,6 +160,19 @@ if ($d0f7ce18c37ad6f6$var$removeFromCart) $d0f7ce18c37ad6f6$var$removeFromCart.f
         const productId = button.getAttribute("data-id");
         await (0, $36691fe5aa208e75$export$86a330d9a979afdd)(productId);
     });
+});
+if ($d0f7ce18c37ad6f6$var$order) $d0f7ce18c37ad6f6$var$order.addEventListener("click", async (e)=>{
+    e.preventDefault();
+    $d0f7ce18c37ad6f6$var$order.innerText = "Processing...";
+    $d0f7ce18c37ad6f6$var$order.disabled = true; // Prevent multiple clicks
+    try {
+        await (0, $e01ee04c3b6f960b$export$7f840fa987fe1d8d)(); // Call your order function
+        $d0f7ce18c37ad6f6$var$order.innerText = "Done"; // Reset text after success
+    } catch (error) {
+        $d0f7ce18c37ad6f6$var$order.innerText = "Try Again"; // Indicate failure
+    } finally{
+        $d0f7ce18c37ad6f6$var$order.disabled = false; // Re-enable button
+    }
 });
 
 

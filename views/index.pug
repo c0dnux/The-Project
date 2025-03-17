@@ -47,12 +47,14 @@ html
                                         li 
                                             a#logout-btn(href="") Log Out
                                         li 
-                                            a(href="#") Profile
+                                            a(href="/orders") Orders
+                                        li 
+                                            a(href="/orders") Profile
                                                 i.fas.fa-user  
                                         li
                                             a(href="/cart") Cart
                                                 i.fas.fa-shopping-cart
-                                         
+
                                     else 
                                         li 
                                             a(href="/") Home 
@@ -88,14 +90,12 @@ html
                                 // Price and Stock in the same row
                                 .d-flex.justify-content-between.align-items-center
                                     p.card-text.mb-0 ₦#{product.price} 
-                                if user
-                                   a.btn.btn-primary(href=`/product/${product.id}`) DETAILS
-                                else
-                                   a.btn.btn-primary(href=`/auth`) LOGIN TO ORDER
+                                a.btn.btn-primary(href=`/product/${product.id}`) DETAILS
+
 
         // Footer
         include _footer
-        
+
 
         // Scripts
         script(
@@ -112,4 +112,4 @@ html
         script(src="/js/main.js")
         script(type="module" src="/dist/index.js")
         script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
-        
+

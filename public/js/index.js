@@ -1,9 +1,11 @@
 import { logout, auth } from "./auth.js";
 import { addToCart, removeProduct } from "./cart.js";
+import { makeOrder } from "./order.js";
 const logoutBtn = document.querySelector("#logout-btn");
 const userSignup = document.getElementById("user-signup");
 const cart = document.getElementById("addToCartForm");
 const removeFromCart = document.querySelectorAll(".romove-from-cart");
+const order = document.getElementById("checkout-btn");
 if (logoutBtn) {
   logoutBtn.addEventListener("click", async (e) => {
     e.preventDefault();
@@ -75,5 +77,22 @@ if (removeFromCart) {
       const productId = button.getAttribute("data-id");
       await removeProduct(productId);
     });
+  });
+}
+
+if (order) {
+  order.addEventListener("click", async (e) => {
+    e.preventDefault();
+    order.innerText = "Processing...";
+    order.disabled = true; // Prevent multiple clicks
+
+    try {
+      await makeOrder(); // Call your order function
+      order.innerText = "Done"; // Reset text after success
+    } catch (error) {
+      order.innerText = "Try Again"; // Indicate failure
+    } finally {
+      order.disabled = false; // Re-enable button
+    }
   });
 }

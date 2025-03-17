@@ -15,42 +15,42 @@ block content
             border-radius: 10px;
             padding: 20px;
         }
-        .checkout-btn {
-            transition: 0.3s;
-        }
-        .checkout-btn:hover {
-            background-color: #0056b3;
-        }
 
     .container.mt-5
         h2.text-center.mb-4(style="color: #858585;") Cart Summary
 
-        // Cart Items
-        .row.g-3
-            each cart in myCart.products
-                .col-md-4
-                    .card.h-100.shadow-sm
-                        img.card-img-top(src=`/img/products/${cart.product.image}`, alt=cart.product.name, style="height: 150px; object-fit: cover")
-                        .card-body
-                            h5.card-title #{cart.product.name}
-                            p.card-text ₦#{cart.product.price}
-                            p.card-text Quantity: #{cart.quantity}
-                            button.romove-from-cart.btn.btn-danger.w-100.mt-2(data-id=cart.product.id) Remove
+        if (myCart && myCart.products && myCart.products.length > 0)
+            // Cart Items
+            .row.g-3
+                each cart in myCart.products
+                    .col-md-4
+                        .card.h-100.shadow-sm
+                            img.card-img-top(src=`/img/products/${cart.product.image}`, alt=cart.product.name, style="height: 150px; object-fit: cover")
+                            .card-body
+                                h5.card-title #{cart.product.name}
+                                p.card-text ₦#{cart.product.price}
+                                p.card-text Quantity: #{cart.quantity}
+                                button.romove-from-cart.btn.btn-danger.w-100.mt-2(data-id=cart.product.id) Remove
 
-        // Summary Section
-        .row.justify-content-end.mt-4
-            .col-md-5
-                .cart-summary.shadow-lg
-                    h4.text-center(style="color: black;") Order Summary
-                    hr(style="border-color: black;")
-                    .d-flex.justify-content-between
-                        span.text-muted Subtotal:
-                        strong(style="color: black;") ₦#{myCart.totalSum}
-                    .d-flex.justify-content-between
-                        span.text-muted Delivery Fee:
-                        strong(style="color: black;") ₦1500
-                    hr(style="border-color: black;")
-                    .d-flex.justify-content-between
-                        h5(style="color: black;") Total:
-                        h5(style="color: black;") ₦#{myCart.totalSum + 1500}
-                    button.btn.btn-primary.w-100.checkout-btn.mt-3 Checkout
+            // Summary Section
+            .row.justify-content-end.mt-4
+                .col-md-5
+                    .cart-summary.shadow-lg
+                        h4.text-center(style="color: black;") Order Summary
+                        hr(style="border-color: black;")
+                        .d-flex.justify-content-between
+                            span.text-muted Subtotal:
+                            strong(style="color: black;") ₦#{myCart.totalSum}
+                        .d-flex.justify-content-between
+                            span.text-muted Delivery Fee:
+                            strong(style="color: black;") ₦1500
+                        hr(style="border-color: black;")
+                        .d-flex.justify-content-between
+                            h5(style="color: black;") Total:
+                            h5(style="color: black;") ₦#{myCart.totalSum + 1500}
+                        button#checkout-btn.btn.btn-primary.w-100.mt-3 Checkout
+        else
+            .text-center.mt-5
+                h4.text-muted Your cart is empty 🛒
+                p(style="color:rgb(170, 94, 94);") Add some products to your cart to proceed.
+                a.btn.btn-primary.mt-3(href="/") Continue Shopping

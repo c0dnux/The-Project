@@ -1,0 +1,42 @@
+extends base
+
+block content
+    style.
+        body {
+            background-color: #f8f9fa;
+        }
+        .table td:first-child {
+            max-width: 150px; /* Limit reference column width */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    .container
+        h2(style="color: #858585;") My Orders
+        table.table.table-striped
+            thead
+                tr
+                    th Reference
+                    th Products
+                    th Total Amount
+                    th Status
+                    th Payment Status
+                    th Date
+            tbody
+                if orders
+                    each order in orders
+                        tr
+                            td(title=order.reference) #{order.reference}  <!-- Tooltip for full reference -->
+                            td
+                                ul
+                                    each item in order.products
+                                        li #{item.product.name} (x#{item.quantity})
+                            td #{order.totalAmount} NGN
+                            td 
+                                - var statusClass = order.status === 'delivered' ? 'text-success' : order.status === 'pending' ? 'text-danger' : ''
+                                span(class=statusClass) #{order.status}
+                            td #{order.paymentStatus}
+                            td #{new Date(order.createdAt).toLocaleDateString()}
+                else
+                    tr
+                        td(colspan="6") No orders found.
