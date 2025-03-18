@@ -2,9 +2,9 @@ const catchAsync = require("./../utils/catchAsync");
 const Cart = require("./../models/cartModel");
 const AppError = require("./../utils/appError");
 const Product = require("./../models/productModel");
-const { async } = require("regenerator-runtime");
 exports.addToCart = catchAsync(async (req, res, next) => {
   const { productId } = req.body;
+  const size = Number(req.body.size);
   const quantity = Number(req.body.quantity); // Ensure quantity is a number
   const customerId = req.user.id;
 
@@ -33,7 +33,7 @@ exports.addToCart = catchAsync(async (req, res, next) => {
   if (!cart) {
     cart = new Cart({
       customer: customerId,
-      products: [{ product: productId, quantity }],
+      products: [{ product: productId, size, quantity }],
     });
   } else {
     // Find existing product in cart
@@ -50,7 +50,7 @@ exports.addToCart = catchAsync(async (req, res, next) => {
 
       existingProduct.quantity = newQuantity;
     } else {
-      cart.products.push({ product: productId, quantity });
+      cart.products.push({ product: productId, size, quantity });
     }
   }
 

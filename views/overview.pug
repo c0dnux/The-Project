@@ -4,8 +4,10 @@ block content
     style.
         body {
             font-family: "Roboto", sans-serif;
-            background-color: #f8f9fa;
         }
+        #selectedSize::placeholder {
+        color: black !important;
+            }
         .product-img {
             width: 100%;
             height: auto;
@@ -83,9 +85,18 @@ block content
                     if product.sizes.length
                         .mb-3
                             label.form-label Sizes Available
-                            .d-flex.gap-2
-                                each size in product.sizes
-                                    span.badge.bg-secondary= size
+                            .d-flex.flex-wrap.gap-3
+                            each size, index in product.sizes
+                                .form-check.form-check-inline
+                                input.form-check-input.size-option(
+                                    type="radio"
+                                    id=`size-${index}`
+                                    name="size"
+                                    value=size
+                                    required
+                                )
+                                label.form-check-label(for=`size-${index}` style="color: black;")= size
+                            input#selectedSize.form-control.mt-2(type="text" readonly placeholder="Selected Size")
                     button.btn.btn-primary.w-100(type="submit") Add to Cart   
 
 

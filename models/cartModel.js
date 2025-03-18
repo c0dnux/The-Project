@@ -17,6 +17,7 @@ const cartSchema = new Schema(
           required: true,
         },
         quantity: { type: Number, required: true, min: 1 },
+        size: { type: Number },
       },
     ],
     totalSum: { type: Number, default: 0 }, // Default to 0

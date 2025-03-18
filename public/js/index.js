@@ -59,17 +59,56 @@ if (document.querySelector("form")?.dataset.page === "auth") {
     });
   });
 }
+// if (cart) {
+//   cart.addEventListener("submit", async (e) => {
+//     e.preventDefault();
+//     const sizeOptions = document.querySelectorAll(".size-option");
+//     const selectedSizeInput = document.getElementById("selectedSize");
+
+//     sizeOptions.forEach((option) => {
+//       option.addEventListener("change", function () {
+//         selectedSizeInput.value = this.value;
+//         console.log("Selected size:", this.value); // Logs the selected size
+//       });
+//     });
+
+//     const data = {
+//       productId: cart.dataset.productId,
+//       quantity: document.getElementById("product-quantity").value,
+//       size: selectedSizeInput,
+//     };
+//     await addToCart(data);
+//   });
+// }
+const sizeOptions = document.querySelectorAll(".size-option");
+const selectedSizeInput = document.getElementById("selectedSize");
+// const cart = document.getElementById("addToCartForm");
+
+if (sizeOptions.length > 0) {
+  sizeOptions.forEach((option) => {
+    option.addEventListener("change", function () {
+      selectedSizeInput.value = this.value;
+      console.log("Selected size:", this.value); // Logs the selected size
+    });
+  });
+}
+
 if (cart) {
   cart.addEventListener("submit", async (e) => {
     e.preventDefault();
+    let selectedSize = selectedSizeInput ? selectedSizeInput.value : null;
 
     const data = {
       productId: cart.dataset.productId,
       quantity: document.getElementById("product-quantity").value,
+      size: selectedSize,
     };
+
+    console.log("Cart data:", data);
     await addToCart(data);
   });
 }
+
 if (removeFromCart) {
   removeFromCart.forEach((button) => {
     button.addEventListener("click", async (e) => {
@@ -88,7 +127,7 @@ if (order) {
 
     try {
       await makeOrder(); // Call your order function
-      order.innerText = "Done"; // Reset text after success
+      order.innerText = "Redirecting..."; // Reset text after success
     } catch (error) {
       order.innerText = "Try Again"; // Indicate failure
     } finally {

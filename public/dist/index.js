@@ -146,12 +146,43 @@ if (document.querySelector("form")?.dataset.page === "auth") document.addEventLi
         });
     });
 });
+// if (cart) {
+//   cart.addEventListener("submit", async (e) => {
+//     e.preventDefault();
+//     const sizeOptions = document.querySelectorAll(".size-option");
+//     const selectedSizeInput = document.getElementById("selectedSize");
+//     sizeOptions.forEach((option) => {
+//       option.addEventListener("change", function () {
+//         selectedSizeInput.value = this.value;
+//         console.log("Selected size:", this.value); // Logs the selected size
+//       });
+//     });
+//     const data = {
+//       productId: cart.dataset.productId,
+//       quantity: document.getElementById("product-quantity").value,
+//       size: selectedSizeInput,
+//     };
+//     await addToCart(data);
+//   });
+// }
+const $d0f7ce18c37ad6f6$var$sizeOptions = document.querySelectorAll(".size-option");
+const $d0f7ce18c37ad6f6$var$selectedSizeInput = document.getElementById("selectedSize");
+// const cart = document.getElementById("addToCartForm");
+if ($d0f7ce18c37ad6f6$var$sizeOptions.length > 0) $d0f7ce18c37ad6f6$var$sizeOptions.forEach((option)=>{
+    option.addEventListener("change", function() {
+        $d0f7ce18c37ad6f6$var$selectedSizeInput.value = this.value;
+        console.log("Selected size:", this.value); // Logs the selected size
+    });
+});
 if ($d0f7ce18c37ad6f6$var$cart) $d0f7ce18c37ad6f6$var$cart.addEventListener("submit", async (e)=>{
     e.preventDefault();
+    let selectedSize = $d0f7ce18c37ad6f6$var$selectedSizeInput ? $d0f7ce18c37ad6f6$var$selectedSizeInput.value : null;
     const data = {
         productId: $d0f7ce18c37ad6f6$var$cart.dataset.productId,
-        quantity: document.getElementById("product-quantity").value
+        quantity: document.getElementById("product-quantity").value,
+        size: selectedSize
     };
+    console.log("Cart data:", data);
     await (0, $36691fe5aa208e75$export$576b6dd9d68b37bc)(data);
 });
 if ($d0f7ce18c37ad6f6$var$removeFromCart) $d0f7ce18c37ad6f6$var$removeFromCart.forEach((button)=>{
@@ -167,7 +198,7 @@ if ($d0f7ce18c37ad6f6$var$order) $d0f7ce18c37ad6f6$var$order.addEventListener("c
     $d0f7ce18c37ad6f6$var$order.disabled = true; // Prevent multiple clicks
     try {
         await (0, $e01ee04c3b6f960b$export$7f840fa987fe1d8d)(); // Call your order function
-        $d0f7ce18c37ad6f6$var$order.innerText = "Done"; // Reset text after success
+        $d0f7ce18c37ad6f6$var$order.innerText = "Redirecting..."; // Reset text after success
     } catch (error) {
         $d0f7ce18c37ad6f6$var$order.innerText = "Try Again"; // Indicate failure
     } finally{

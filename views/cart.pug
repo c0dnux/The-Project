@@ -4,7 +4,6 @@ block content
     style.
         body {
             font-family: "Roboto", sans-serif;
-            background-color: #f8f9fa;
         }
         .container {
             margin-bottom: 30px;
@@ -15,7 +14,9 @@ block content
             border-radius: 10px;
             padding: 20px;
         }
-
+        .container{
+            margin-bottom:180px ;
+        }
     .container.mt-5
         h2.text-center.mb-4(style="color: #858585;") Cart Summary
 
@@ -30,6 +31,11 @@ block content
                                 h5.card-title #{cart.product.name}
                                 p.card-text ₦#{cart.product.price}
                                 p.card-text Quantity: #{cart.quantity}
+                                
+                                // Show size if available
+                                if cart.size
+                                    p.card-text Size: #{cart.size}
+
                                 button.romove-from-cart.btn.btn-danger.w-100.mt-2(data-id=cart.product.id) Remove
 
             // Summary Section

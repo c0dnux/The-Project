@@ -68,7 +68,6 @@ exports.paymentConfirmation = catchAsync(async (req, res, next) => {
     return next(new AppError(`Payment failed Missing reference`, 404));
   }
   const existingorder = await Order.findOne({ reference });
-  console.log(existingorder, reference);
 
   if (existingorder) {
     return next(new AppError(`Payment already recorded`, 200));
@@ -98,8 +97,17 @@ exports.paymentConfirmation = catchAsync(async (req, res, next) => {
   });
   if (order) {
     await Cart.findOneAndDelete({ customer: metadata.customer });
-  }
 
+    for (const item of metadata.products) {
+      const product = await Product.findById(item.product._id);
+      if (!product) continue; // 🔹 Skip if product no longer exists
+
+      // ✅ Decrement stock safely
+      await Product.findByIdAndUpdate(product._id, {
+        $inc: { stock: -item.quantity },
+      });
+    }
+  }
   return res.status(200).json({
     status: "success",
     message: "Payment successful",

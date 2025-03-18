@@ -2,14 +2,14 @@ extends base
 
 block content
     style.
-        body {
-            background-color: #f8f9fa;
-        }
         .table td:first-child {
             max-width: 150px; /* Limit reference column width */
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+        }
+        .container{
+            margin-bottom:350px ;
         }
     .container
         h2(style="color: #858585;") My Orders
@@ -23,7 +23,7 @@ block content
                     th Payment Status
                     th Date
             tbody
-                if orders
+                if orders.length
                     each order in orders
                         tr
                             td(title=order.reference) #{order.reference}  <!-- Tooltip for full reference -->
@@ -39,4 +39,5 @@ block content
                             td #{new Date(order.createdAt).toLocaleDateString()}
                 else
                     tr
-                        td(colspan="6") No orders found.
+                        td(colspan="6").text-center No orders found.
+
